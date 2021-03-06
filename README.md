@@ -18,7 +18,7 @@ Back in the early days of it you could get a lot of prizes.  Though they only al
 * 123 Main St. Apt #2, Anywhere, YZ, USA
 * 123 Main St. Apt #3, Anywhere, YZ, USA
 
-Apparently the XBox controller had the best dollars/point so you would leave your computer running to gather points on multiple accounts, then use all the points to buy up controllers.  There was a post on a forum with a photo of a guy that received like 100 Xbox controllers by UPS in a single day.  He promptly put then on Ebay and sold them.  Other [prizes](https://www.cheapassgamer.com/topic/164690-live-se-club-bing-thread-3-no-macrobotreturn-fraud-talk/) include:
+Apparently the XBox controller had the best dollars/point so you would leave your computer running to gather points on multiple accounts, then use all the points to buy up controllers.  There was a post on a forum with a photo of a guy that received like 100 Xbox controllers by UPS in a single day.  He promptly put them on Ebay and sold them.  Other [prizes](https://www.cheapassgamer.com/topic/164690-live-se-club-bing-thread-3-no-macrobotreturn-fraud-talk/) included:
 
 * Telescope
 * Record player
@@ -29,15 +29,20 @@ Apparently the XBox controller had the best dollars/point so you would leave you
  
 Everything said "Bing" on it.
 
-Micrsoft ran the game to popularize their search engine, (Bing)[bing.com].  Everytime that you typed in an answer, your browser would search for it in another frame.  This perhaps convinces people to use Bing more but it also increases the number of users that appear to be using Bing.  And that number helps Microsoft demand more money from advertisers that want to appear on Bing search results.  I worked out that all the scripters playing Chicktionary were contributing 2-4% of all Bing searches.  I also did some back-of-the-envelope math comparing Google's revenue and searchs/month with that of Bing and figured out that Microsoft was getting a pretty good return on the game.  The appearance of Bing being more popular probably brought in more ad dollars than the prizes cost.
+Micrsoft ran the game to popularize their search engine, (Bing)[bing.com].  Everytime that you typed in an answer, your browser would search for it in another frame.  This perhaps convinces people to use Bing more but it also increases the number of users that appear to be using Bing.  And that number helps Microsoft demand more money from advertisers that want to appear on Bing search results.  I worked out that all the scripters playing Chicktionary were contributing 2-4% of all Bing searches.  I also did some back-of-the-envelope math comparing Google's revenue and searches/month with that of Bing and figured out that Microsoft was getting a pretty good return on the game.  The appearance of Bing being more popular probably brought in more ad dollars than the prizes cost.
 
 # Scripting
 
-There were a few scripts around to play the game automatically, often using [AutoHotKey](https://www.autohotkey.com/).  I wrote my own in VB.Net that had an embedded browser, which I called "Chicken" after Chicktionary and also because there was a pop-culture joke about Kuritza in my country.
+There were a few scripts around to play the game automatically, often using [AutoHotKey](https://www.autohotkey.com/).  I wrote my own in VB.Net that had an embedded browser, which I called "Chicken" after Chicktionary and also because there was a funny TV sketch about Kuritza in my country.
 
 ![image](https://user-images.githubusercontent.com/109809/110156497-445d3600-7da4-11eb-8442-9d67dabc1d18.png)
 
-Because the game was in Flash, it wasn't trivial to interact with the elements in the DOM so playing the game was a combination of DOM interactions, `browser.Go(<URL>)`, screenshots, and Windows API to simulate typing and clicks.
+Because the game was in Flash, it wasn't easy to interact with the elements in the DOM so playing the game was a combination of:
+
+* DOM interactions
+* `browser.Go(<URL>)`
+* screenshots and searching pixels
+* Windows API to simulate typing and clicks
 
 **Microsoft isn't a bunch of dummies.**  They knew about cheaters.  They got good at tracking users that would complete puzzles too quickly and they would void their prizes.  They also got better at recognizing duplicate shipping address.  And of course, they used **captchas**.
 
@@ -47,15 +52,15 @@ You know, those squiggly letters that you have to type in to prove that you're h
 
 ![image](https://user-images.githubusercontent.com/109809/110151548-da419280-7d9d-11eb-999e-fc2f0315f88e.png)
 
-You'd think that this would be a deal-breaker for automation but it really isn't.  There are a dozen [online captcha solving services](https://prowebscraper.com/blog/top-10-captcha-solving-services-compared/).  They cost about [$1 for 500 solved](https://de-captcher.com/) puzzles.  Club Bing popped up a captcha once every 4 games.  Each game earned you 20 tickets if you got all the words right and an Xbox was about 80,000 tickets, I think, so:
+You'd think that this would be a deal-breaker for automation but it isn't.  There are a dozen [online captcha solving services](https://prowebscraper.com/blog/top-10-captcha-solving-services-compared/).  They cost about [$1 for 500 solved](https://de-captcher.com/) puzzles.  Club Bing popped up a captcha once every 4 games.  Each game earned you 20 tickets if you got all the words right and an Xbox was 55,000 tickets.
 
 ```
 (1 Xbox / 55000tickets) * (20 tickets / game) * (4 games / captcha) * (500 captchas / 1USD) = 1 Xbox for 73 cents
 ```
 
-Pretty good deal.  Also, it would take you 55 days because you could only earn 1000 tickets per day but you could run a few different accounts so at the end of 55 days you'd pick up a few Xboxs.
+Pretty good deal.  Also, it would take you 55 days because you could only earn 1000 tickets per day.  But you could run a few different accounts so at the end of 55 days you'd pick up a few Xboxs.  Cheaper prizes even faster: A video game was 5000 tickets.
 
-Also, the captcha solver explains why scripting was so popular.  Those services that solve captchas have affiliate programs.  The script that does the solving sends an affiliate code along with the request and the the affiliate gets a bit of the money.  So script writers were incentivized to share the script far and wide and write the best one.
+The captcha solving service explains why cheating was so popular:  Those services have affiliate programs.  The script that does the solving sends an affiliate code along with the request and the the affiliate gets a bit of the money that the user is paying.  So script writers were incentivized to share the script far and wide and write the very best one.
 
 # Cat-captcha
 
@@ -65,33 +70,37 @@ Around 2010 Microsoft switched the captcha algorithm from squiggly letters to [A
 
 Each of those images is a thumbnail of a cat or a dog.  To solve the puzzle, you need to get 12 out of 12 correct identifications of cats, or 11 out of 12 twice in a row.
 
-When Club Bing switched to this, the entire cheating community around Club Bing crashed.  But I got to work.
+When Club Bing switched to this, the entire cheating community around Club Bing halted.  I went to work.
 
-The first thing that I tried was sending cats and dogs to the captcha service.  Back in 2010, those captcha services were *not* some highly advanced image recognition.  They were just people in Bangladesh answering your queries.  I tried to work out how much they earned:
+The first thing that I tried was sending cats and dogs to the captcha service.  Back in 2010, those captcha services were *not* some highly advanced image recognition.  They were just [people in Bangladesh answering your queries](https://www.nytimes.com/2010/04/26/technology/26captcha.html).  I tried to work out how much they earned:
 
 ```
 (2000 work hours / year) * (1 captcha / 5 seconds) * (1USD / 500 captchas) = $2880 / year working full-time.
 ```
 
-Maybe half went to the owner of the website because, you know, capitalism, so the workers were probably earning about as much as a receptionist according to [some randomly selected website](https://destinationscanner.com/average-salary-in-bangladesh/).
+Maybe half went to the owner of the website because, you know, _capitalism_, so the workers were probably earning about as much as a receptionist according to [some randomly selected website](https://destinationscanner.com/average-salary-in-bangladesh/).
 
 I wanted to see if they could solve Asirra.  Here's the image that I sent:
 
 ![image](https://user-images.githubusercontent.com/109809/110156903-c51c3200-7da4-11eb-89b0-4212df87e258.png)
 
-The service that I used, [de-captcher](https://de-captcher.com/), returned the *correct* answer:
+The service that I used, [de-captcher](https://de-captcher.com/), returned this answer:
 
 ```
 cat or dog?
 ```
 
-*Technically* correct but not what I wanted.  I sent it a few more times and on the fourth try I eventually got the right answer:
+*Technically* correct but not what I wanted.  I sent it a few more times:
+
+![image](https://user-images.githubusercontent.com/109809/110195805-37206580-7dfd-11eb-9579-2f1fdd4f541f.png)![image](https://user-images.githubusercontent.com/109809/110195815-3e477380-7dfd-11eb-8009-b49ad9b5b708.png)![image](https://user-images.githubusercontent.com/109809/110195820-43a4be00-7dfd-11eb-9bf9-f1585e5dddae.png)![image](https://user-images.githubusercontent.com/109809/110195828-4b646280-7dfd-11eb-8d41-0f3c80bb1832.png)
+
+It took four tries to get a useful answer:
 
 ```
 dog
 ```
 
-This did not bode well for me.  First of all, I need 12 of them.  Assuming that it would take me 4 tries each time to find a worker in Bangladesh to do it correctly, that would be 48 requests.  The cost of an Xbox just went up to $35!  Obscene!  I needed a better solution.
+This did not bode well for me.  First of all, I need 12 of them.  Assuming that it would take me 4 tries each time to find a worker in Bangladesh to do it correctly, that would be 48 requests.  The cost of an Xbox just went up to $35!  And if they get 1 even one wrong I have to double that.  Obscene!  I needed a better solution.
 
 # Why not just use deep learning?
 
@@ -99,7 +108,7 @@ This was 2010, remember?  Deep learning was not as far along back then.  [This p
 
 There was also a [token-bucket](https://en.wikipedia.org/wiki/Token_bucket) scheme that would lock you out temporarily for getting too many wrong in a row.  Though the token-bucket didn't run on the Asirra test server, it *did* run on Club Bing.
 
-# The harvest
+# The Harvest: A new hope
 
 Microsoft research put up a website to show off the new Asirra technology.  It had a testing ground where you could try it out and it would let you know if you got it right.  Look at the image again:
 
@@ -109,9 +118,9 @@ See that little "Adopt me" button?  That's there because Asirra was a partnershi
 
 Again, **Microsoft is not a bunch of dummies**.  They know that you're going to try to click `Adopt me` on each image and get the right answer.  So what they do is invalidate the puzzle **and** all the adoption links after the first time that you click adopt me.  So you only get one answer.
 
-My idea was to write a program to collect all the info and make a mapping from image to number: 0 means unknown, 1 means dog, 2 means cat.  I called The Harvester in keeping with the Chicken/farmer theme.
+My idea was to write a program to do it a lot and gather a mapping from image to number: 0 means unknown, 1 means dog, 2 means cat.  I called The Harvester in keeping with the chicken/farmer theme.
 
-Each attempt went pretty quickly but I didn't know how many pets I needed to learn.  The Asirra website claimed 3.1 million.  Was it really?
+Each attempt went pretty quickly but I didn't know how many pets I needed to learn.  The Asirra website claimed 3.1 million.  Was it really 3.1 million?
 
 # Inverse birthday paradox
 
@@ -121,15 +130,20 @@ Most people know the [birthday paradox](https://en.wikipedia.org/wiki/Birthday_p
 
 The inverse is that if you know that 22 people in a room gives you a 50-50 shot at finding two people with the same birthday, you can reverse the equation to compute how many days there are in a year.
 
-Likewise, if I query the Asirra servers and keep track of every image seen, how long until I get a duplicate?  I can do a bunch of puzzles and count the images until I get a duplicate.  I did it many times and keep track of how many images.  Then I take the median of all those trials and run it through the equation above, in reverse, to figure out the number of images.  Sure enough, my answer was pretty much 3.1 million.
+Likewise, if I query the Asirra servers and keep track of every image seen, how long until I get a duplicate?  I can run a trial by requesting a bunch of puzzles and keeping track of the images until I get a duplicate.  I ran many trials and kept track of how many images until the first duplicate.  Then I take the median of all those trials and run it through the equation above, in reverse, to figure out the number of images.  Sure enough, my answer was pretty much 3.1 million.
 
 # Distributed harvest
 
-I put my script on USB thumb drives and handed them out to friends.  I also wrote a merge program that would combine the databases (which was actually just text file list).  Every day or two my friends would hand back their USB thumbdrives and I would merge all the databases and put them back on all the thumbdrives so that the harvesters wouldn't be duplicating efforts.  The harvesters only clicked "Adopt me" on unknown images so keep the databases up-to-date prevented duplicated work.
+I put my script on USB thumb drives and handed them out to friends.  I also wrote a merge program that would combine the databases.  Every day or two my friends would hand back their USB thumbdrives and I would merge all the databases and put them back on all the thumbdrives so that the harvesters wouldn't be duplicating efforts.  The harvesters only clicked "Adopt me" on unknown images so keeping the distributed databases current prevented duplicated work.
 
 # Can we go faster?
 
-After 2-3 weeks, we had collected around 1.5 million images.  It was getting to where the puzzle was sometimes nearly solved out of the database.  However, there were some holes in the database that would never fill because the "Adopt me" link was broken.  Maybe the pet was already adopted or delisted for some other reason?
+After 2-3 weeks, we had collected around 1.5 million images.  It was getting to where the puzzle was sometimes nearly solved out of the database.  However, there were some holes in the database that would never fill because the "Adopt me" link was broken.  Maybe the pet was already adopted?  I added another result to the database:
+
+* Unknown
+* Cat
+* Dog
+* Broken link
 
 But there was another way to get a right answer: Guess!
 
@@ -137,7 +151,7 @@ Asirra would let you know if you solved a puzzle correctly.  Here's what I measu
 
 * `adopt_time`: How long it takes to click on an "Adopt me" link, load petfinder.com, and get the cat/dog answer.
 * `adopt_success_rate`: Probability that clicking "Adopt me" gets me the answer and not just a broken link.
-* `guess_time`: How long it takes to submit a guess and learn if I solved the puzzle correctly.  This was faster than petfinder.com.
+* `guess_time`: How long it takes to submit a guess and learn if I solved the puzzle correctly.  (This was faster than petfinder.com loading times.)
 
 Assuming 50-50 cats-to-dogs (it was more like 40-60 but whatever), I could work out an equation for how many pets I'm learning per second using adopt me:
 
@@ -145,17 +159,17 @@ Assuming 50-50 cats-to-dogs (it was more like 40-60 but whatever), I could work 
 adopt_learning_rate = 1 / adopt_time * adopt_success_rate
 ```
 
-I could also work out the learning rate for guessing.  If there are `n` unknown pets then my odds of guess right are 1 in 2<sup>n</sup>.  And when I get it right, I learn all `n` of them:
+I could also work out the learning rate for guessing.  If there are `n` unknown pets then my odds of guessing right are 1 in 2<sup>n</sup>.  And when I get it right, I learn all `n` of them:
 
 ```
 guess_learning_rate = n / guess_time * (1 / 2**n)
 ```
 
-Setting those two to equal and solving for n, I was able to calculate that if I knew 7 or more out of the 12 pets, I could just guess the rest of them and it would be more effective than adopt me.  I put this into the harvester and a couple week later my friends and I had a database that was complete enough to work.
+Setting those two to equal and solving for n, I was able to calculate that if I knew mor than 7 of the 12 pets, I could just guess the rest of them and it would be more effective than adopt me.  I put this into the harvester and a couple week later my friends and I had a database that was complete enough to work.
 
 # Solution server
 
-Microsoft Research did a good job but they made a couple mistakes.  First of all, they never rate-limited their service.  This is what let the harvester work so well.  Another mistake that they made was in how they handled correct solutions.
+Microsoft Research did a good job but they made a couple protocol mistakes.  First of all, they never rate-limited their service.  This is what let the harvester work.  Second, they mistake that they made was in how they handled correct solutions.
 
 There are three parties in the captcha process:
 
@@ -170,37 +184,39 @@ One way you *could* make it work is for the server to ask the provider for a puz
 This is a bad idea for a few reasons:
 1. Now it's up to your server to do all the processing.  What if the server screws it up?
 2. If Asirra ever wants to change the protocol, every server will need to update their website.
-3. The server would become the most efficient harvester ever.
+3. A pretend server could become the most efficient harvester ever.
 
-Here's how it actually worked (Asirra in the middle this time, for easier reading):
+Here's how it actually worked (Asirra in the middle this time for easier reading):
 
 ![image](https://user-images.githubusercontent.com/109809/110165783-a58b0680-7db0-11eb-945b-24a8c9afe209.png)
 
 Now the server doesn't need to know the details about how it works.  The server doesn't even have the answer!  But here's where Microsoft made a mistake:
-* There was a rate-limit on the Club Bing so you couldn't get too many wrong in a row but there was no rate limit on Asirra.
+* There was a rate-limit on Club Bing so you couldn't get too many wrong in a row but there was no rate limit on Asirra.
 * There was no check on the IP address of the token.
 
-So it was easy for me to create the cats-be-gone.kicks-ass.org website which served up valid tokens.  Like this:
+So it was easy for me to create the cats-be-gone.kicks-ass.org website which served up valid tokens over HTTP.  Like this:
 
 ![image](https://user-images.githubusercontent.com/109809/110167286-c8b6b580-7db2-11eb-83d4-fdc02b1dc39e.png)
 
-Though the token IP addresses were not checked, their timestamp was.  Tokens were only valid for an hour.  The Cats Be Gone server actually generated them ahead of time and always kept 20 on hand so that they'd be ready to go as needed.  My friends and I used the server for a while with success and it got better over time.
+(Though the token IP addresses were not checked, their timestamp was.  Tokens were only valid for an hour.  The Cats Be Gone server actually generated them ahead of time and always kept 20 on hand so that they'd be ready to go as needed.)
+
+My friends and I used the server for a while with success and it got better over time as the server's guesses netted new answers.
 
 # Making it a business (lifetime revenue: $0)
 
 Talking with my friends I thought, "Hey, let's open the server to everyone and make a business out of it!"  People were already used to paying captcha for the service so I figured they could pay me instead.  I'd charge $1 per 200 solutions, which was more than the going rate of $1/500 but I had no competition.  I publicized the client on [one of the most popular forums](https://thebot.net/threads/club-bing-bot-chicken-beta-with-automatic-cat-captcha.15723/page-5) for this kind of stuff and opened a Google Store to accept payments.  Pretty cringy looking back on it!
 
-There was plenty of chatter on the forums about how this is some by-pass and not solver and so the tickets earned would get invalidated when it came time to buy a prize.  In the past there had been problems with captcha by-passers.  People were rightly suspicious.  But with no alternative and such a cheap price, I got some customers anyway and eventually had like $50 in potential sales.  *Oh wow I'm rich now!*  Yeah, right!  Even the Bangladeshis were getting a better return on their time.
+There was plenty of chatter on the forums about how this is some by-pass and not solver and so the tickets earned would get invalidated when it came time to buy a prize.  In the past there had been problems with captcha by-passers.  People were rightly suspicious.  So I gave it away free for a while.  And after it started to prove itself and with no alternatives, I got some customers and had $50 in potential sales.  *Oh wow I'm rich now!*  Yeah, right!  Even the Bangladeshis were getting a better return on their time.
 
-I shortly after cancelled all the orders because Microsoft defenses finally defeated Cats-Be-Gone.
+I promised to I wouldn't process the charge until 10% of the payment was spent, to prove that it works.  But just a week later I cancelled all the orders because Microsoft defenses finally defeated the idea.
 
-# The empire strikes back
+# The Microsoft empire strikes back
 
 Microsoft tried a few things to defeat my cheating all along.  One of the first things that they tried was renaming all their images.  **This was a total disaster and I had to start all over because I only ever mapped from filename to cat/dog!**
 
 Nah, **just kidding**.  I had already downloaded all the images.  I mean, 3.1 million images at 1MB each, it was *only* 3.1 Terabytes.  Even back then 3 Terabytes was affordable.  It didn't affect me at all.  I figured that they might try something so I ran a downloading harvester.
 
-Another thing that they tried was tweaking the images.  They would randomly select 10-20 pixels in the image and adjust the color, which was more than enough to break any cryptographic hash that I might have used to store a mapping from `SHA1(image) -> cat/dog`.  But I didn't use that either.  I used [MinHash](https://en.wikipedia.org/wiki/MinHash).
+Another thing that they tried was tweaking the images.  They would randomly select 10-20 pixels in the image and adjust the color.  That would be more than enough to break any cryptographic hash that I might have used, like `SHA1(image) -> cat/dog`.  But I didn't use that either.  I used [MinHash](https://en.wikipedia.org/wiki/MinHash).
 
 # Image Hashing v1: MinHash
 
@@ -208,19 +224,19 @@ MinHash is super-simple: Pick a ten pixels out of the image and concatenate thei
 
 ![image](https://user-images.githubusercontent.com/109809/110188438-eb5bc500-7dd8-11eb-8bc2-099ffac9e5e1.png)
 
-If Microsoft modifies a couple pixels here and there, no big deal.  What are the odds that we collide?  And even if we do, it'll probably be just 1 of the 12 images so I can send a guess for that image.  Worst case, get a new puzzle and try again.
+If Microsoft modified a couple pixels here and there, no big deal.  What are the odds that we collide?  And even if we do, it'll probably be just 1 of the 12 images so I can send a guess for that image.  Worst case, get a new puzzle and try again.
 
 It worked fine.  I also had the server update itself whenever it got a guess right so the database was filling itself in over time.
 
 # Microsoft defeats Cats Be Gone
 
-Microsoft eventually rate limited Asirra so it was no longer possible for a single Cats-Be-Gone server to create tokens for everyone.  *And* they started to associate tokens with IP addresses so the Cats-Be-Gone server tokens were worthless.  *And*, worst of all, they wiped out the 3.1 million images from petfinder.com and got a brand-new batch.
+Microsoft eventually rate limited Asirra so it was no longer possible for a single Cats-Be-Gone server to create tokens for everyone.  *And* they started to associate tokens with IP addresses so the Cats-Be-Gone server tokens were worthless for sale.  *And*, worst of all, they wiped out the 3.1 million images from petfinder.com and got a brand-new batch.
 
-I couldn't harvest them because of rate-limiting and I couldn't sell them because of the IP address check so I gave up entirely on making a measely business out of it.  I never processed any payments.  But I still felt some obligation to the clients and I _did_ want to win some prizes still so I turned to crowd-sourcing.
+I could no longer harvest them because of rate-limiting and I couldn't sell them because of the IP address check so I gave up entirely on making a measely business out of it.  I never processed any payments.  But I still felt some obligation to the clients and I _did_ want to win some prizes still so I turned to crowd-sourcing.
 
-# Crowdsourcing
+# Crowd-sourcing
 
-I knew that some of the users would be willing to answer captchas themselves so I adjusted the client to ask the server for answers, get them, and then ask the user to fill in just the unknowns.  The client would then send the results back to the server.
+I knew that some of the users would be willing to answer captchas themselves so I adjusted the client to ask the server for answers, get them, and then ask the user to fill in just the unknowns.  The client would then send the results back to the server to update the database.
 
 To make it somewhat difficult for a malicious user to fill my database with junk, I encrypted all communications with a hard-coded key and I ran a .Net obfuscator on the releases to make it harder to find.  It would only prevent casual users from wrecking the database but it was good enough.  The only people that did figure out how to access the database through reverse engineering were those who wanted to download the whole database.  And I decided that I don't care so I let it happen.
 
@@ -238,11 +254,11 @@ Also, because I didn't have the images, now all the hashing was in the client co
 6. For each value, record a `1` is it's above the median, otherwise a `0`.
 7. Now you have a 64-bit number!
 
-pHash has a library for this and it's, of course, not in VB.Net so I implemented it myself.  Nowadays you'd just use a library but I'll go through how pHash works because it's pretty cool.
+pHash has a library for this and it's, obviously, not in VB.Net so I implemented it myself.  Nowadays you'd just use a library but I'll go through how pHash works because it's pretty cool.
 
 ## Convert to black and white
 
-Pretty easy, just convert the RGB value of each pixel to intensity.  There are a few ways but this one is on Wikipedia:
+Pretty easy, just convert the RGB value of each pixel to brightness.  There are a few ways but this one is on Wikipedia:
 
 ```
 Y = 0.2126 * R + 0.7152 * G + 0.0722 * B
@@ -273,9 +289,9 @@ You replace each pixel with a weighted sum of the pixels around it.  Here is a b
 
 ![image](https://user-images.githubusercontent.com/109809/110180447-06253e00-7dc7-11eb-9409-fa908cf967ec.png)
 
-## Discrete-cosine transform
+(I'll skip the shrink step because it's pretty boring and obvious.)
 
-I'll skip the shrink step because it's pretty boring.
+## Discrete-cosine transform
 
 The [discrete-cosine transform](https://en.wikipedia.org/wiki/Discrete_cosine_transform) is kind of like the Fourier transform in that you can convert your series of numbers from one form to another and also invert it.  `inverse_dct(dct(image)) == image`
 
@@ -305,7 +321,7 @@ No surprised there.  The DCT is invertible.  It's a little strange the DCT image
 
 ![image](https://user-images.githubusercontent.com/109809/110188731-fb27d900-7dd9-11eb-973f-a8e0c66014fc.png)
 
-The DCT transformed image still looks pretty good but throwing out three-quarters of the original did not do it any favors!  Let's blacken even more.
+The DCT transformed image still looks pretty good despite losing three-quarters of the information.  Let's blacken even more.
 
 ![image](https://user-images.githubusercontent.com/109809/110190628-7345cd00-7de1-11eb-8d6f-544029ce30e8.png)
 
@@ -315,7 +331,7 @@ Now let's zoom in on the top left corner of the DCT image, the part that we didn
 
 ![image](https://user-images.githubusercontent.com/109809/110190705-dd5e7200-7de1-11eb-98d2-7af2d3bc28f3.png)
 
-That's just the top-left of the DCT image.  We can see that all the rest of the image was uniform and all the significance was in the corner.  That's why the DCT worked even though we threw away so many bits: We threw away the bits that don't matter.  It only works well on photos but that's what we want to deal with anyway.
+That's just the top-left of the DCT image.  We can see that all the significant bits were in the corner.  That's why the DCT worked even though we threw away so many bits: We threw away the bits that don't matter.  It only works well on photos but that's what we want to deal with anyway.
 
 To encode this into a number we use the method that I mentioned before: Looking at just the top-left 64 numbers, encode a `1` if the value is above the median, otherwise `0`.  The result is a 64-bit number with half `0`s.  There are (64 choose 32) such numbers, more than 10<sup>18</sup> and **way** more than the 3.1 million images that we want to encode so we're unlikely to have a collision.
 
@@ -323,7 +339,7 @@ Now we just need an efficient way to store all those numbers for searching.
 
 ## Vantage Point Trees
 
-A [vantage point tree](https://fribbels.github.io/vptree/writeup) is a sort of binary tree that works like this: For each node, you specify a center and a radius.  If the point that you're looking for is inside the radius, go left.  If it's outside, go right.  Continue until you hit a leaf.
+A [vantage point tree](https://fribbels.github.io/vptree/writeup) is a sort of binary tree that works like this: For each node, you specify a center and a radius.  If the point that you're looking for is inside the radius, go left.  If it's outside, go right.  Continue until you find your answer.
 
 ![image](https://user-images.githubusercontent.com/109809/110194917-68e2fd80-7df8-11eb-989d-19d36861826a.png)
 
@@ -340,10 +356,8 @@ The hash works pretty well with the Hamming distance because it turns out that i
 
 # Chicken with pHash
 
-Now that we were going fully crowd-sourced, it didn't seem fair at all to charge any money.  But I continued to host the server so that we could all share puzzle answers.  I served up Asirra results for free and collected new answers as they got reported.  Every couple days I would regenerate the tree with the latest data and restart the server.  At peak I would get around 10 queries per second on my home-made VB.Net HTTP web server.  I had about 2000 unique users in total.  I also calculated about how many points users were collectively earning using Chicken and the average value of a point based on selling stuff on ebay.  Chicken was probably responsible for around 1 million dollars of prizes all told.
+Now that we were going fully crowd-sourced, it didn't seem fair at all to charge any money.  But I continued to host the server so that everyone share puzzle answers.  I served up Asirra results for free and collected new answers as they got reported.  Every couple days I would regenerate the tree with the latest data and restart the server.  At peak I would get around 10 queries per second on my home-made VB.Net HTTP server.  I had about 2000 unique users in total.  I also calculated about how many points users were collectively earning using Chicken and the average value of a point based on selling stuff on ebay.  Chicken was probably responsible for around 1 million dollars of prizes all told.
 
-Eventually Microsoft pixelated **and** rotated the images being served.  They got so twisted that pHash was at a loss.  I tried to compensate by creating a rotational pHash but there just weren't enough bits to make it accurate.  They were also cracking down on cheaters in other ways.  For example, my entire country was banned from all of Club Bing.  There was also a team in Europe doing the same and all of that country got banned, too.  In the end, Club Bing shut down in 2012.
+Eventually Microsoft pixelated **and** rotated the images being served.  They got so distorted that pHash was at a loss.  They were also cracking down in other ways.  For example, my entire country was banned from all of Club Bing.  In 2012, Club Bing shut down.
 
-There was also a lot of other drama, like competition between different script writers.  And there was the time that I emailed the creators of Asirra to chat about my hacking.  (Why not?)  
-
-I never got an Xbox and my inflatable Kayak never arrived but I had some fun and I'm keeping warm.
+I never got an Xbox and my inflatable Kayak never arrived but I had some fun and I keep warm.
