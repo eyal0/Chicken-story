@@ -182,6 +182,8 @@ Another thing that they tried was tweaking the images.  They would randomly sele
 
 MinHash is super-simple: Pick a ten pixels out of the image and concatenate their values.  And that's it.  So long as you always pick the same ten pixels, it'll work.
 
+![image](https://user-images.githubusercontent.com/109809/110188438-eb5bc500-7dd8-11eb-8bc2-099ffac9e5e1.png)
+
 If Microsoft modifies a couple pixels here and there, no big deal.  What are the odds that we collide?  And even if we do, it'll probably be just 1 of the 12 images so I can send a guess for that image.  Worst case, try again.
 
 It worked fine.  I also had the server update itself whenever it got a guess right so the database was filling itself in over time.
@@ -202,7 +204,7 @@ Also, all the hashing was in the client code now and I knew that minhash wasn't 
 
 # pHash
 
-[pHash](https://www.phash.org/) is great.  The idea is like this:
+[pHash](https://www.phash.org/) is great.  The idea is something like this:
 
 1. Convert the image to black and white.
 2. Gaussian blur.
@@ -212,9 +214,9 @@ Also, all the hashing was in the client code now and I knew that minhash wasn't 
 6. For each value, record a `1` is it's above the median, otherwise a `0`.
 7. Now you have a 64-bit hash.
 
-pHash has a library for this and it's, of course, not in Visual Basic .Net so I implemented it myself, cutting corners where possible because I didn't need it to be very perfect.
+pHash has a library for this and it's, of course, not in VB.Net so I implemented it myself, cutting corners where possible because I didn't need it to be very perfect.  Nowadays you'd just use a library but I'll go through the steps because they're pretty cool.
 
-# Convert to black and white
+## Convert to black and white
 
 Pretty easy, just convert the RGB value of each pixel to intensity.  There are a few ways but this one is on Wikipedia:
 
@@ -222,5 +224,58 @@ Pretty easy, just convert the RGB value of each pixel to intensity.  There are a
 Y = 0.2126 * R + 0.7152 * G + 0.0722 * B
 ```
 
-Here's the result for a koala:
+Here's how you do it in python:
+
+```
+from PIL import Image
+image = Image.open('dog.jpg')
+image.show()
+for x in range(image.size[0]):
+    for y in range(image.size[1]):
+        (r, g, b) = image.getpixel((x,y))
+        brightness = 0.2126 * r + 0.7152 * r + 0.0722 * b
+        new_pixel = tuple([int(brightness)] * 3)
+        image.putpixel((x,y), new_pixel)
+image.show()
+```
+
+![image](https://user-images.githubusercontent.com/109809/110178982-84ccac00-7dc4-11eb-88cf-1ab297ff0ed7.png)
+
+Pretty simple.
+
+## Blur
+
+You replace each pixel with a weighted sum of the pixels around it.  Here it is with a blur radius of 8.
+
+![image](https://user-images.githubusercontent.com/109809/110180447-06253e00-7dc7-11eb-9409-fa908cf967ec.png)
+
+## Discrete-cosine transform
+
+I'll skip the shrink step because it's pretty boring and go to the DCT.  The [discrete-cosine transform](https://en.wikipedia.org/wiki/Discrete_cosine_transform) is kind of like the Fourier transform in that you can convert your series of numbers from one form to another and also invert it.  But unlike the Fourier transform, it's made from cosines instead of powers of e so all the results are real numbers and there are no imaginary numbers.  It is the technique that JPEG uses to shrink your images.
+
+[Here's some code](https://stackoverflow.com/a/60794544/4454) that I found online that does it in python.  I modified it a little.  Here's the important bit:
+
+```
+im = rgb2gray(imread('dog.jpg'))
+imF = dct2(im)
+fraction = 1
+for y in range(len(im)):
+    for x in range(len(im[y])):
+        if x > len(im[y])//fraction or y > len(im)//fraction:
+            # blacken pixels that aren't in the top left corner
+            im[y][x] = 0
+            imF[y][x] = 0
+im1 = idct2(imF)
+```
+
+![image](https://user-images.githubusercontent.com/109809/110188634-a84e2180-7dd9-11eb-8c97-9c20995c0dd3.png)
+
+We read in an image and perform a DCT on it.  Then we blacken some fraction of that original image and also the same fraction of the transformed image.  And then invert transform.  Here's what it looks like with nothing blackened:
+
+![image](https://user-images.githubusercontent.com/109809/110188664-bef47880-7dd9-11eb-8755-a93c482d07bc.png)
+
+No surprised there.  The DCT is invertible.  It's a little strange the DCT image is just black but we'll get back to that, soon.  Let's see what happens when we throw away three-quarters of the image:
+
+![image](https://user-images.githubusercontent.com/109809/110188731-fb27d900-7dd9-11eb-973f-a8e0c66014fc.png)
+
 
