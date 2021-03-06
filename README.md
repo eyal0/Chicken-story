@@ -130,7 +130,7 @@ Most people know the [birthday paradox](https://en.wikipedia.org/wiki/Birthday_p
 
 The inverse is that if you know that 22 people in a room gives you a 50-50 shot at finding two people with the same birthday, you can reverse the equation to compute how many days there are in a year.
 
-Likewise, if I query the Asirra servers and keep track of every image seen, how long until I get a duplicate?  I can run a trial by requesting a bunch of puzzles and keeping track of the images until I get a duplicate.  I ran many trials and kept track of how many images until the first duplicate.  Then I take the median of all those trials and run it through the equation above, in reverse, to figure out the number of images.  Sure enough, my answer was pretty much 3.1 million.
+Likewise, if I query the Asirra servers and keep track of every image seen, how long until I get a duplicate?  I did an experiment.  For each trial, I requested puzzles until I got a duplicate cat or dog in the trial.  I ran many trials and kept track of how many images until the first duplicate.  Then I took the median of all those trials which told me about how many pets need to be seen randomly to get a duplicate.  Then I ran it through the equation above, in reverse, to figure out the number of images.  Sure enough, my answer was pretty much 3.1 million.
 
 # Distributed harvest
 
@@ -153,29 +153,29 @@ Asirra would let you know if you solved a puzzle correctly.  Here's what I measu
 * `adopt_success_rate`: Probability that clicking "Adopt me" gets me the answer and not just a broken link.
 * `guess_time`: How long it takes to submit a guess and learn if I solved the puzzle correctly.  (This was faster than petfinder.com loading times.)
 
-Assuming 50-50 cats-to-dogs (it was more like 40-60 but whatever), I could work out an equation for how many pets I'm learning per second using adopt me:
+Assuming 50-50 cats-to-dogs (it was more like 40-60 but whatever), I could work out an equation for how many pets I'm learning per second using `adopt me`:
 
 ```
 adopt_learning_rate = 1 / adopt_time * adopt_success_rate
 ```
 
-I could also work out the learning rate for guessing.  If there are `n` unknown pets then my odds of guessing right are 1 in 2<sup>n</sup>.  And when I get it right, I learn all `n` of them:
+I could also work out the learning rate for guessing.  If there are `n` unknown pets then my odds of guessing right are 1 in 2<sup>n</sup>.  But when I get it right, I learn all `n` of them:
 
 ```
 guess_learning_rate = n / guess_time * (1 / 2**n)
 ```
 
-Setting those two to equal and solving for n, I was able to calculate that if I knew mor than 7 of the 12 pets, I could just guess the rest of them and it would be more effective than adopt me.  I put this into the harvester and a couple week later my friends and I had a database that was complete enough to work.
+Setting those two to equal and solving for n, I was able to calculate that if I knew more than 6 of the 12 pets, I could just guess the rest of them and it would be more effective than adopt me.  I put this into the harvester and a couple weeks later my friends and I had a database that was complete enough to work.
 
-# Solution server
+# Cats Be Gone: The Return of the Solution Server
 
-Microsoft Research did a good job but they made a couple protocol mistakes.  First of all, they never rate-limited their service.  This is what let the harvester work.  Second, they mistake that they made was in how they handled correct solutions.
+Microsoft Research did a good job but they made a couple protocol mistakes.  First of all, they never rate-limited their service.  This is what made the harvester possible.  Second, they didn't handle proofs-of-work correctly.
 
 There are three parties in the captcha process:
 
 1. The captcha provider (eg, Microsoft Asirra or Google reCaptcha)
 2. The captcha server (eg, Club Bing or whatever web server)
-3. The captcha user (Whoever is playing Club Bing games)
+3. The captcha user (eg, Club Bing players)
 
 One way you *could* make it work is for the server to ask the provider for a puzzle and an answer.  Then the server sends the puzzle to the user, the user solves it, sends it back, and the server confirms it.
 
@@ -208,7 +208,7 @@ Talking with my friends I thought, "Hey, let's open the server to everyone and m
 
 There was plenty of chatter on the forums about how this is some by-pass and not solver and so the tickets earned would get invalidated when it came time to buy a prize.  In the past there had been problems with captcha by-passers.  People were rightly suspicious.  So I gave it away free for a while.  And after it started to prove itself and with no alternatives, I got some customers and had $50 in potential sales.  *Oh wow I'm rich now!*  Yeah, right!  Even the Bangladeshis were getting a better return on their time.
 
-I promised to I wouldn't process the charge until 10% of the payment was spent, to prove that it works.  But just a week later I cancelled all the orders because Microsoft defenses finally defeated the idea.
+I promised that I wouldn't process the charge until 10% of the payment was spent and I'd refund unhappy customers, to prove that it works.  But just a week later I cancelled all the orders because Microsoft defenses finally defeated the idea.
 
 # The Microsoft empire strikes back
 
