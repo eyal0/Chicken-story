@@ -202,7 +202,7 @@ To make it somewhat difficult for a malicious user to fill my database with junk
 
 Also, all the hashing was in the client code now and I knew that minhash wasn't robust so I switched to pHash.
 
-# pHash
+# Image hash v2: pHash
 
 [pHash](https://www.phash.org/) is great.  The idea is something like this:
 
@@ -278,4 +278,39 @@ No surprised there.  The DCT is invertible.  It's a little strange the DCT image
 
 ![image](https://user-images.githubusercontent.com/109809/110188731-fb27d900-7dd9-11eb-973f-a8e0c66014fc.png)
 
+The DCT transformed image still looks pretty good but throwing out three-quarters of the original did not do it any favors!  Let's toss out 15/16th.
 
+![image](https://user-images.githubusercontent.com/109809/110190628-7345cd00-7de1-11eb-8d6f-544029ce30e8.png)
+
+The original loses a lot of data with just 6.25% of it but the DCT image is still looking reasonable!  That's the power of the DCT: We can throw away a bunch of bits and still have a decent image.
+
+Now let's zoom in on the top left corner of the DCT image, the part that we didn't throw away.
+
+![image](https://user-images.githubusercontent.com/109809/110190705-dd5e7200-7de1-11eb-98d2-7af2d3bc28f3.png)
+
+That's just the top-left bit of the image.  We can see that all the rest of the image was uniform and the only real information was in the corner.  That's why the DCT worked even though we threw away so many bits: Because the significant information was in the corner and the rest was just the details.  This is perfect for an image hash.
+
+To encode this into a number we use the method that I mentioned before: Looking at just the top-left 64 numbers, encode a `1` if the value is above the median, otherwise `0`.  The result is a 64-bit number with half `0`s.  There are more than 10<sup>18</sup> such numbers, way more than the 3.1 million images that we want to encode so we're unlikely to have a collision.
+
+Now we just need an efficient way to store all those numbers for searching.
+
+## Vantage Point Trees
+
+A [vantage point tree](https://en.wikipedia.org/wiki/Vantage-point_tree) is a sort of binary tree that works like this: For each node, you specify a radius.  If the point that you're looking for is inside the radius, go left.  If it's outside, go right.  Continue until you hit a leaf.
+
+The advantage of this tree is that you can define distance anyway you like.  For our image hash, we want to weigh all the bits evenly so we use a [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance).  A hamming distance is the count of how many bits are different between two numbers.
+
+```
+                  01101010111001
+                  10100010010010
+difference bits:  ^^  ^   ^ ^ ^^
+Hamming distance is 7
+```
+
+The hash works pretty well with the Hamming distance.  If two images are nearly the same but don't have the same hash, the Hamming distance will be small.
+
+# Chicken with pHash
+
+Now that we were going fully crowd-sourced, it didn't seem fair at all to charge any money.  So I continued to host the server, serving up Asirra results for free and collecting new answers as they got reported.  Every couple days I would regenerate the tree with the latest data and restart the server.  At peak I would get around 10 queries per second and I once took a sum and determined that there were around 2000 users in total.  I also calculated the average value of a point based on selling stuff on ebay and determined that users had gotten in total about a million dollars in prizes.
+
+Eventually Microsoft pixelated **and** rotated the images being served.  They got so hard to view that pHash was completely broken.  I tried to compensate for the rotation by taking the sum of the image along all the radii but there just weren't enough bits for pHash to work.  They were also cracking down on cheaters in other ways and, in the end, they shut it down in 2012.
