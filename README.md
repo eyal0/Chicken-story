@@ -66,7 +66,7 @@ The captcha solving service explains why cheating was so popular:  Those service
 
 Around 2010 Microsoft switched the captcha algorithm from squiggly letters to [Asirra](https://www.microsoft.com/en-us/research/wp-content/uploads/2007/10/CCS2007.pdf).  Asirra looks like this:
 
-![image](https://user-images.githubusercontent.com/109809/110153581-7b314d00-7da0-11eb-929a-83f463931a92.png)
+![image](https://user-images.githubusercontent.com/109809/110257857-ecb5fa80-7f5c-11eb-94a0-0eedceb8c4f2.png)
 
 Each of those images is a thumbnail of a cat or a dog.  To solve the puzzle, you need to get 12 out of 12 correct identifications of cats, or 11 out of 12 twice in a row.
 
