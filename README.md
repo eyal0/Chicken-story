@@ -29,7 +29,7 @@ Apparently the XBox controller had the best dollars/point so you would leave you
  
 Everything said "Bing" on it.
 
-Micrsoft ran the game to popularize their search engine, (Bing)[bing.com].  Everytime that you typed in an answer, your browser would search for it in another frame.  This perhaps convinces people to use Bing more but it also increases the number of users that appear to be using Bing.  And that number helps Microsoft demand more money from advertisers that want to appear on Bing search results.  I worked out that all the scripters playing Chicktionary were contributing 2-4% of all Bing searches.  I also did some back-of-the-envelope math comparing Google's revenue and searches/month with that of Bing and figured out that Microsoft was getting a pretty good return on the game.  The appearance of Bing being more popular probably brought in more ad dollars than the prizes cost.
+Micrsoft ran the game to popularize their search engine, [Bing](bing.com).  Everytime that you typed in an answer, your browser would search for it in another frame.  This perhaps convinces people to use Bing more but it also increases the number of users that appear to be using Bing.  And that number helps Microsoft demand more money from advertisers that want to appear on Bing search results.  I worked out that all the scripters playing Chicktionary were contributing 2-4% of all Bing searches.  I also did some back-of-the-envelope math comparing Google's revenue and searches/month with that of Bing and figured out that Microsoft was getting a pretty good return on the game.  The appearance of [Bing being more popular](https://en.wikipedia.org/wiki/Club_Bing#Bing) probably brought in more ad dollars than the prizes cost.
 
 # Scripting
 
@@ -100,7 +100,7 @@ It took four tries to get a useful answer:
 dog
 ```
 
-This did not bode well for me.  First of all, I need 12 of them.  Assuming that it would take me 4 tries each time to find a worker in Bangladesh to do it correctly, that would be 48 requests.  The cost of an Xbox just went up to $35!  And if they get 1 even one wrong I have to double that.  Obscene!  I needed a better solution.
+This did not bode well for me.  First of all, I need 12 of them.  Assuming that it would take me 4 tries each time to find a worker in Bangladesh to do it correctly, that would be 48 requests.  The cost of an Xbox just went up to $35!  And if they get even 1 wrong I have to double that.  Obscene!  I needed a better solution.
 
 # Why not just use deep learning?
 
@@ -118,7 +118,7 @@ See that little "Adopt me" button?  That's there because Asirra was a partnershi
 
 Again, **Microsoft is not a bunch of dummies**.  They know that you're going to try to click `Adopt me` on each image and get the right answer.  So what they do is invalidate the puzzle **and** all the adoption links after the first time that you click adopt me.  So you only get one answer.
 
-My idea was to write a program to do it a lot and gather a mapping from image to number: 0 means unknown, 1 means dog, 2 means cat.  I called The Harvester in keeping with the chicken/farmer theme.
+My idea was to write a program to do it a lot and gather a mapping from image to number: 0 means unknown, 1 means dog, 2 means cat.  I called it the "Harvest" in keeping with the chicken/farmer theme.
 
 Each attempt went pretty quickly but I didn't know how many pets I needed to learn.  The Asirra website claimed 3.1 million.  Was it really 3.1 million?
 
@@ -130,7 +130,18 @@ Most people know the [birthday paradox](https://en.wikipedia.org/wiki/Birthday_p
 
 The inverse is that if you know that 22 people in a room gives you a 50-50 shot at finding two people with the same birthday, you can reverse the equation to compute how many days there are in a year.
 
-Likewise, if I query the Asirra servers and keep track of every image seen, how long until I get a duplicate?  I did an experiment.  For each trial, I requested puzzles until I got a duplicate cat or dog in the trial.  I ran many trials and kept track of how many images until the first duplicate.  Then I took the median of all those trials which told me about how many pets need to be seen randomly to get a duplicate.  Then I ran it through the equation above, in reverse, to figure out the number of images.  Sure enough, my answer was pretty much 3.1 million.
+Likewise, if I query the Asirra servers and keep track of every image seen, how long until I get a duplicate?  I did an experiment:
+
+```
+define trial as:
+   initialize images_seen to an empty list
+   while images_seen has no duplicates:
+       fetch a puzzle
+       add all images in the puzzle to images_seen
+   return the size of images_seen
+```
+
+For each trial, I requested puzzles until I got a duplicate cat or dog in the trial.  I ran many trials and kept track of how many images until the first duplicate.  Then I took the median of all those trials which told me about how many pets need to be seen to have a 50-50 change of a duplicate.  Then I ran it through the equation above, in reverse, to figure out the number of images.  Sure enough, my answer was pretty much 3.1 million.
 
 # Distributed harvest
 
@@ -165,7 +176,7 @@ I could also work out the learning rate for guessing.  If there are `n` unknown 
 guess_learning_rate = n / guess_time * (1 / 2**n)
 ```
 
-Setting those two to equal and solving for n, I was able to calculate that if I knew more than 6 of the 12 pets, I could just guess the rest of them and it would be more effective than adopt me.  I put this into the harvester and a couple weeks later my friends and I had a database that was complete enough to work.
+Setting those two to equal and solving for n, I was able to calculate that if I knew more than 7 of the 12 pets, I could just guess the rest of them and it would be more effective than `adopt me`.  I put this into the harvester and a couple weeks later my friends and I had a database that was complete enough to work.
 
 # Cats Be Gone: A Solution Server
 
@@ -214,9 +225,9 @@ I promised that I wouldn't process the charge until 10% of the payment was spent
 
 Microsoft tried a few things to defeat my cheating all along.  One of the first things that they tried was renaming all their images.  **This was a total disaster and I had to start all over because I only ever mapped from filename to cat/dog!**
 
-Nah, **just kidding**.  I had already downloaded all the images.  I mean, 3.1 million images at 1MB each, it was *only* 3.1 Terabytes.  Even back then 3 Terabytes was affordable.  It didn't affect me at all.  I figured that they might try something so I ran a downloading harvester.
+Nah, **just kidding**.  I had already downloaded all the images.  I mean, 3.1 million images at 1MB each, it was *only* 3.1 Terabytes.  Even back then 3 Terabytes was affordable.  It didn't affect me at all.  I figured that they might try something like this so I ran a downloading harvester.
 
-Another thing that they tried was tweaking the images.  They would randomly select 10-20 pixels in the image and adjust the color.  That would be more than enough to break any cryptographic hash that I might have used, like `SHA1(image) -> cat/dog`.  But I didn't use that either.  I used [MinHash](https://en.wikipedia.org/wiki/MinHash).
+Another thing that they tried was tweaking the images.  They would randomly select 10-20 pixels in the image and adjust the color.  That would be more than enough to break any cryptographic hash that I might have used, like a map with `SHA1(image), -> cat/dog`.  But I didn't use that either.  I used [MinHash](https://en.wikipedia.org/wiki/MinHash).
 
 # Image Hashing v1: MinHash
 
@@ -230,7 +241,7 @@ It worked fine.  I also had the server update itself whenever it got a guess rig
 
 # Microsoft defeats Cats Be Gone
 
-Microsoft eventually rate limited Asirra so it was no longer possible for a single Cats-Be-Gone server to create tokens for everyone.  *And* they started to associate tokens with IP addresses so the Cats-Be-Gone server tokens were worthless for sale.  *And*, worst of all, they wiped out the 3.1 million images from petfinder.com and got a brand-new batch.
+Microsoft eventually rate limited Asirra so it was no longer possible for a single Cats-Be-Gone server to create tokens for everyone.  *And* they started to associate tokens with IP addresses so the Cats-Be-Gone server tokens were worthless for sale.  *And worst of all*, they wiped out the 3.1 million images from petfinder.com and got a brand-new batch.
 
 I could no longer harvest them because of rate-limiting and I couldn't sell them because of the IP address check so I gave up entirely on making a measely business out of it.  I never processed any payments.  But I still felt some obligation to the clients and I _did_ want to win some prizes still so I turned to crowd-sourcing.
 
@@ -238,7 +249,7 @@ I could no longer harvest them because of rate-limiting and I couldn't sell them
 
 I knew that some of the users would be willing to answer captchas themselves so I adjusted the client to ask the server for answers, get them, and then ask the user to fill in just the unknowns.  The client would then send the results back to the server to update the database.
 
-To make it somewhat difficult for a malicious user to fill my database with junk, I encrypted all communications with a hard-coded key and I ran a .Net obfuscator on the releases to make it harder to find.  It would only prevent casual users from wrecking the database but it was good enough.  The only people that did figure out how to access the database through reverse engineering were those who wanted to download the whole database.  And I decided that I don't care so I let it happen.
+To make it somewhat difficult for a malicious user to fill my database with junk, I encrypted all communications with a hard-coded key and I ran a .Net obfuscator on the releases to make it harder to find.  It would only prevent casual users from wrecking the database but it was good enough.  The only people that did figure out how to access the database through reverse engineering were those who wanted to download the whole database.  I decided that I don't care so I let it happen.
 
 Also, because I didn't have the images, now all the hashing was in the client code now and I knew that MinHash wasn't robust so I switched to pHash.
 
@@ -293,9 +304,9 @@ You replace each pixel with a weighted sum of the pixels around it.  Here is a b
 
 ## Discrete-cosine transform
 
-The [discrete-cosine transform](https://en.wikipedia.org/wiki/Discrete_cosine_transform) is kind of like the Fourier transform in that you can convert your series of numbers from one form to another and also invert it.  `inverse_dct(dct(image)) == image`
+The [discrete-cosine transform](https://en.wikipedia.org/wiki/Discrete_cosine_transform) is kind of like the Fourier transform in that you can convert your series of numbers from one form to another and also invert it.  `inverse_dct(dct(image)) == image`  You don't have to know all all about frequency analysis.  Just know that you can take a matrix of numbers, like a black and white image, and convert it to another matrix of numbers.  And you can convert it back.
 
-But unlike the Fourier transform, it's made from cosines instead of powers of e so all the results are real numbers and there are no imaginary numbers.  It is the technique that [JPEG](https://en.wikipedia.org/wiki/JPEG#Discrete_cosine_transform) uses to shrink your images.
+Unlike the Fourier transform, DCT is made from cosines instead of powers of e so all the results are real numbers and there are no imaginary numbers.  It is the technique that [JPEG](https://en.wikipedia.org/wiki/JPEG#Discrete_cosine_transform) uses to shrink your images.
 
 [Here's some code](https://stackoverflow.com/a/60794544/4454) that I found online that does it in python.  I modified it a little.  Here's the important bit:
 
@@ -317,7 +328,9 @@ We read in an image and perform a DCT on it.  Then we blacken some fraction of t
 
 ![image](https://user-images.githubusercontent.com/109809/110188664-bef47880-7dd9-11eb-8755-a93c482d07bc.png)
 
-No surprised there.  The DCT is invertible.  It's a little strange the DCT image is just black; we'll get to that soon.  Let's see what happens when we throw away three-quarters of the image:
+No surprise there.  The DCT is invertible so it makes sense that the output is the same as the input.  It's a little strange the DCT image is just black; we'll get to that soon!
+
+Let's see what happens when we throw away three-quarters of the image:
 
 ![image](https://user-images.githubusercontent.com/109809/110188731-fb27d900-7dd9-11eb-973f-a8e0c66014fc.png)
 
@@ -360,4 +373,4 @@ Now that we were going fully crowd-sourced, it didn't seem fair at all to charge
 
 Eventually Microsoft pixelated **and** rotated the images being served.  They got so distorted that pHash was at a loss.  They were also cracking down in other ways.  For example, my entire country was banned from all of Club Bing.  In 2012, Club Bing shut down.
 
-I never got an Xbox and my inflatable Kayak never arrived but I had some fun and I keep warm.
+I never got an Xbox and my inflatable Kayak never arrived.  I mostly just sent prizes as a surprise to friends and family.  The only thing that I got for myself was a cheap telescope and a jacket that I like.
