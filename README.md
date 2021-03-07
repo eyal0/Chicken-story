@@ -167,7 +167,7 @@ guess_learning_rate = n / guess_time * (1 / 2**n)
 
 Setting those two to equal and solving for n, I was able to calculate that if I knew more than 6 of the 12 pets, I could just guess the rest of them and it would be more effective than adopt me.  I put this into the harvester and a couple weeks later my friends and I had a database that was complete enough to work.
 
-# Cats Be Gone: The Return of the Solution Server
+# Cats Be Gone: A Solution Server
 
 Microsoft Research did a good job but they made a couple protocol mistakes.  First of all, they never rate-limited their service.  This is what made the harvester possible.  Second, they didn't handle proofs-of-work correctly.
 
