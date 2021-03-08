@@ -118,7 +118,13 @@ See that little "Adopt me" button?  That's there because Asirra was a partnershi
 
 Again, **Microsoft is not a bunch of dummies**.  They know that you're going to try to click `Adopt me` on each image and get the right answer.  So what they do is invalidate the puzzle **and** all the adoption links after the first time that you click adopt me.  So you only get one answer.
 
-My idea was to write a program to do it a lot and gather a mapping from image to number: 0 means unknown, 1 means dog, 2 means cat.  I called it the "Harvest" in keeping with the chicken/farmer theme.
+My idea was to write a program to do it a lot and gather a mapping from image to number:
+
+* 0: unknown
+* 1: dog
+* 2: cat
+
+I called it the "Harvest" in keeping with the chicken/farmer theme.
 
 Each attempt went pretty quickly but I didn't know how many pets I needed to learn.  The Asirra website claimed 3.1 million.  Was it really 3.1 million?
 
@@ -151,10 +157,10 @@ I put my script on USB thumb drives and handed them out to friends.  I also wrot
 
 After 2-3 weeks, we had collected around 1.5 million images.  It was getting to where the puzzle was sometimes nearly solved out of the database.  However, there were some holes in the database that would never fill because the "Adopt me" link was broken.  Maybe the pet was already adopted?  I added another result to the database:
 
-* Unknown
-* Cat
-* Dog
-* Broken link
+* 0: Unknown
+* 1: Cat
+* 2: Dog
+* 3: Broken link
 
 But there was another way to get a right answer: Guess!
 
