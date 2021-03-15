@@ -1,6 +1,6 @@
 # Chicken Story
 
-**tl;dr**: Crowdsourced cheating at Microsoft's Club Bing game to get prizes.
+**tl;dr**: The time when Microsoft banned my entire country for cheating at Club Bing.
 
 (A lot of the details are from memory so I've recreated images and information as necessary.)
 
