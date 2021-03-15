@@ -55,7 +55,7 @@ You know, those squiggly letters that you have to type in to prove that you're h
 You'd think that this would be a deal-breaker for automation but it isn't.  There are a dozen [online captcha solving services](https://prowebscraper.com/blog/top-10-captcha-solving-services-compared/).  They cost about [$1 for 500 solved](https://de-captcher.com/) puzzles.  Club Bing popped up a captcha once every 4 games.  Each game earned you 20 tickets if you got all the words right and an Xbox was 55,000 tickets.
 
 ```
-(1 Xbox / 55000tickets) * (20 tickets / game) * (4 games / captcha) * (500 captchas / 1USD) = 1 Xbox for 73 cents
+(55000 tickets / Xbox) * (1 game / 20 tickets) * (1 captcha / 4 games) * (1 USD / 500 captchas) = 1.375USD per Xbox
 ```
 
 Pretty good deal.  Also, it would take you 55 days because you could only earn 1000 tickets per day.  But you could run a few different accounts so at the end of 55 days you'd pick up a few Xboxs.  Cheaper prizes even faster: A video game was 5000 tickets.
@@ -100,7 +100,7 @@ It took four tries to get a useful answer:
 dog
 ```
 
-This did not bode well for me.  First of all, I need 12 of them.  Assuming that it would take me 4 tries each time to find a worker in Bangladesh to do it correctly, that would be 48 requests.  The cost of an Xbox just went up to $35!  And if they get even 1 wrong I have to double that.  Obscene!  I needed a better solution.
+This did not bode well for me.  First of all, I need 12 of them.  Assuming that it would take me 4 tries each time to find a worker in Bangladesh to do it correctly, that would be 48 requests.  The cost of an Xbox just went up to $66!  And if they get even 1 wrong I have to double that.  Obscene!  I needed a better solution.
 
 # Why not just use deep learning?
 
@@ -132,7 +132,7 @@ Each attempt went pretty quickly but I didn't know how many pets I needed to lea
 
 Most people know the [birthday paradox](https://en.wikipedia.org/wiki/Birthday_problem):  Despite there being a full 365 days in a year, you only need 22 people in a room to have a 50-50 chance that two of them have the same birthday.  If `d=365` and `n=22` then you can work out the probability like this:
 
-![image](https://user-images.githubusercontent.com/109809/110160217-f565cf80-7da8-11eb-8b75-47ecd2a51c89.png)
+![brithday paradox equation](https://user-images.githubusercontent.com/109809/111234785-f40c8200-85b4-11eb-847e-b336cd11b071.png)
 
 The inverse is that if you know that 22 people in a room gives you a 50-50 shot at finding two people with the same birthday, you can reverse the equation to compute how many days there are in a year.
 
