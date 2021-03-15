@@ -12,7 +12,7 @@
 
 The letter that you can use are on the bottom and the words that you need to make are in the little eggs at the top.  There was always one 7 letter word.
 
-Back in the early days of it you could get a lot of prizes.  Though they only allowed you to get one prize per address, it was easy enough to slap an apartment number on to the address of your single-family home and create lots of unique addresses:
+Back in the early days of it you could get a lot of prizes.  Though they only allowed you to get one of each prize per address, it was easy enough to slap an apartment number on to the address of your single-family home and create lots of unique addresses:
 
 * 123 Main St. Apt #1, Anywhere, YZ, USA
 * 123 Main St. Apt #2, Anywhere, YZ, USA
