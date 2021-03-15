@@ -136,22 +136,25 @@ Most people know the [birthday paradox](https://en.wikipedia.org/wiki/Birthday_p
 
 The inverse is that if you know that 22 people in a room gives you a 50-50 shot at finding two people with the same birthday, you can reverse the equation to compute how many days there are in a year.
 
-Likewise, if I query the Asirra servers and keep track of every image seen, how long until I get a duplicate?  I did an experiment:
+Likewise, if I query the Asirra servers and keep track of every image seen, how long until I get a duplicate?  I did an experiment, something like this (but in VB.Net instead of python pseudocode):
 
-```
-define trial as:
-   initialize images_seen to an empty list
-   while images_seen has no duplicates:
-       fetch a puzzle
-       add all images in the puzzle to images_seen
-   return the size of images_seen
+```python
+def trial():
+   images_seen = []
+   while True:
+       p = fetch_puzzle()
+       for image in p.images():
+           if image in images_seen:
+               break
+           images_seen.append(image)
+   return len(images_seen)
 ```
 
 For each trial, I requested puzzles until I got a duplicate cat or dog in the trial.  I ran many trials and kept track of how many images until the first duplicate.  Then I took the median of all those trials which told me about how many pets need to be seen to have a 50-50 change of a duplicate.  Then I ran it through the equation above, in reverse, to figure out the number of images.  Sure enough, my answer was pretty much 3.1 million.
 
 # Distributed harvest
 
-I put my script on USB thumb drives and handed them out to friends.  I also wrote a merge program that would combine the databases.  Every day or two my friends would hand back their USB thumbdrives and I would merge all the databases and put them back on all the thumbdrives so that the harvesters wouldn't be duplicating efforts.  The harvesters only clicked "Adopt me" on unknown images so keeping the distributed databases current prevented duplicated work.
+I put my script on USB thumb drives and handed them out to friends.  I also wrote a merge program that would combine the databases.  Every day or two my friends would hand back their USB thumbdrives and I would run the Combine (again, farmer theme) and put them back on all the thumbdrives so that the harvesters wouldn't be duplicating efforts.  The harvesters only clicked "Adopt me" on unknown images so keeping the distributed databases current prevented duplicated work.
 
 # Can we go faster?
 
@@ -164,7 +167,7 @@ After 2-3 weeks, we had collected around 1.5 million images.  It was getting to 
 
 But there was another way to get a right answer: Guess!
 
-Asirra would let you know if you solved a puzzle correctly.  Here's what I measured:
+Asirra would let you know if you solved a puzzle correctly.  I ran the code for a while and measured these numbers:
 
 * `adopt_time`: How long it takes to click on an "Adopt me" link, load petfinder.com, and get the cat/dog answer.
 * `adopt_success_rate`: Probability that clicking "Adopt me" gets me the answer and not just a broken link.
@@ -199,6 +202,7 @@ One way you *could* make it work is for the server to ask the provider for a puz
 ![image](https://user-images.githubusercontent.com/109809/110165143-b6874800-7daf-11eb-9281-bb4c07f049d6.png)
 
 This is a bad idea for a few reasons:
+
 1. Now it's up to your server to do all the processing.  What if the server screws it up?
 2. If Asirra ever wants to change the protocol, every server will need to update their website.
 3. A pretend server could become the most efficient harvester ever.
@@ -215,7 +219,7 @@ So it was easy for me to create the cats-be-gone.kicks-ass.org website which ser
 
 ![image](https://user-images.githubusercontent.com/109809/110167286-c8b6b580-7db2-11eb-83d4-fdc02b1dc39e.png)
 
-(Though the token IP addresses were not checked, their timestamp was.  Tokens were only valid for an hour.  The Cats Be Gone server actually generated them ahead of time and always kept 20 on hand so that they'd be ready to go as needed.)
+(Though the token IP addresses were not checked, their timestamp was.  Tokens were only valid for around an hour.  The Cats Be Gone server actually generated them ahead of time and always kept 20 on hand so that they'd be ready to go as needed.)
 
 My friends and I used the server for a while with success and it got better over time as the server's guesses netted new answers.
 
@@ -257,7 +261,7 @@ I knew that some of the users would be willing to answer captchas themselves so 
 
 To make it somewhat difficult for a malicious user to fill my database with junk, I encrypted all communications with a hard-coded key and I ran a .Net obfuscator on the releases to make it harder to find.  It would only prevent casual users from wrecking the database but it was good enough.  The only people that did figure out how to access the database through reverse engineering were those who wanted to download the whole database.  I decided that I don't care so I let it happen.
 
-Also, because I didn't have the images, now all the hashing was in the client code now and I knew that MinHash wasn't robust so I switched to pHash.
+Also, because I didn't have the images, all the hashing was in the client code because I didn't want to send 12 images to the server for each request.  And I knew that MinHash wasn't robust so I switched to pHash.
 
 # Image hash v2: pHash
 
@@ -271,7 +275,7 @@ Also, because I didn't have the images, now all the hashing was in the client co
 6. For each value, record a `1` is it's above the median, otherwise a `0`.
 7. Now you have a 64-bit number!
 
-pHash has a library for this and it's, obviously, not in VB.Net so I implemented it myself.  Nowadays you'd just use a library but I'll go through how pHash works because it's pretty cool.
+pHash has a library for this and it's, obviously, not in VB.Net so I implemented it myself.  Nowadays you'd just use a different language that has a library but I'll go through how pHash works because it's pretty cool.
 
 ## Convert to black and white
 
@@ -375,8 +379,8 @@ The hash works pretty well with the Hamming distance because it turns out that i
 
 # Chicken with pHash
 
-Now that we were going fully crowd-sourced, it didn't seem fair at all to charge any money.  But I continued to host the server so that everyone share puzzle answers.  I served up Asirra results for free and collected new answers as they got reported.  Every couple days I would regenerate the tree with the latest data and restart the server.  At peak I would get around 10 queries per second on my home-made VB.Net HTTP server.  I had about 2000 unique users in total.  I also calculated about how many points users were collectively earning using Chicken and the average value of a point based on selling stuff on ebay.  Chicken was probably responsible for around 1 million dollars of prizes all told.
+Now that we were going fully crowd-sourced, it didn't seem fair at all to charge any money.  But I continued to host the server so that everyone could share puzzle answers.  I served up Asirra results for free and collected new answers as they got reported.  Every couple days I would regenerate the tree with the latest data and restart the server.  At peak I would get around 10 queries per second on my home-made VB.Net HTTP server.  I had about 2000 unique users in total.  I also calculated about how many points users were collectively earning using Chicken and the average value of a point based on selling stuff on ebay.  Chicken was probably responsible for around half a million dollars of prizes all told.
 
-Eventually Microsoft pixelated **and** rotated the images being served.  They got so distorted that pHash was at a loss.  They were also cracking down in other ways.  For example, my entire country was banned from all of Club Bing.  In 2012, Club Bing shut down.
+Eventually Microsoft randomly pixelated **and** rotated the images being served.  They got so distorted that pHash was at a loss.  They were also cracking down in other ways.  For example, my entire country was banned from all of Club Bing.  In 2012, Club Bing shut down.
 
 I never got an Xbox and my inflatable Kayak never arrived.  I mostly just sent prizes as a surprise to friends and family.  The only thing that I got for myself was a cheap telescope and a jacket that I like.
